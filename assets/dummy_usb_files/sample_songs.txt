@@ -1,0 +1,99 @@
+# Sample USB Media Files for AutoDash OS Demo
+# These files simulate the media content that would be found on a USB drive
+
+# Music Files (MP3 format)
+01 - Artist Name - Song Title.mp3
+02 - Another Artist - Another Song.mp3
+03 - Popular Band - Hit Single.mp3
+04 - Jazz Ensemble - Smooth Jazz.mp3
+05 - Rock Band - Electric Guitar.mp3
+
+# Audio Files (WAV format)
+06 - Classical Orchestra - Symphony No. 1.wav
+07 - Acoustic Guitar - Folk Song.wav
+08 - Piano Solo - Moonlight Sonata.wav
+
+# Video Files (MP4 format)
+09 - Music Video - Official Video.mp4
+10 - Concert Recording - Live Performance.mp4
+
+# Metadata for each file:
+# File: 01 - Artist Name - Song Title.mp3
+# Title: Song Title
+# Artist: Artist Name
+# Album: Greatest Hits
+# Duration: 3:45
+# Size: 5.2 MB
+
+# File: 02 - Another Artist - Another Song.mp3
+# Title: Another Song
+# Artist: Another Artist
+# Album: New Album
+# Duration: 4:12
+# Size: 6.1 MB
+
+# File: 03 - Popular Band - Hit Single.mp3
+# Title: Hit Single
+# Artist: Popular Band
+# Album: Chart Toppers
+# Duration: 3:28
+# Size: 4.8 MB
+
+# File: 04 - Jazz Ensemble - Smooth Jazz.mp3
+# Title: Smooth Jazz
+# Artist: Jazz Ensemble
+# Album: Jazz Collection
+# Duration: 5:33
+# Size: 7.9 MB
+
+# File: 05 - Rock Band - Electric Guitar.mp3
+# Title: Electric Guitar
+# Artist: Rock Band
+# Album: Rock Classics
+# Duration: 4:07
+# Size: 5.9 MB
+
+# File: 06 - Classical Orchestra - Symphony No. 1.wav
+# Title: Symphony No. 1
+# Artist: Classical Orchestra
+# Album: Classical Masterpieces
+# Duration: 12:45
+# Size: 45.2 MB
+
+# File: 07 - Acoustic Guitar - Folk Song.wav
+# Title: Folk Song
+# Artist: Acoustic Guitar
+# Album: Acoustic Collection
+# Duration: 3:22
+# Size: 12.1 MB
+
+# File: 08 - Piano Solo - Moonlight Sonata.wav
+# Title: Moonlight Sonata
+# Artist: Piano Solo
+# Album: Piano Classics
+# Duration: 8:15
+# Size: 29.8 MB
+
+# File: 09 - Music Video - Official Video.mp4
+# Title: Official Video
+# Artist: Music Video
+# Album: Video Collection
+# Duration: 4:30
+# Size: 25.6 MB
+
+# File: 10 - Concert Recording - Live Performance.mp4
+# Title: Live Performance
+# Artist: Concert Recording
+# Album: Live Concerts
+# Duration: 15:22
+# Size: 89.3 MB
+
+# Total USB Drive Contents:
+# - 10 media files
+# - Total size: ~200 MB
+# - Supported formats: MP3, WAV, MP4
+# - Duration range: 3:22 to 15:22
+# - File sizes: 4.8 MB to 89.3 MB
+
+# This simulates a realistic USB drive that a user might connect
+# to their vehicle's infotainment system for media playback. 
