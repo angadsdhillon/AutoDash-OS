@@ -1,154 +1,113 @@
 # AutoDash OS - Embedded Infotainment System Simulator
 
-## 🚗 Project Overview
+## Project Overview
 
-AutoDash OS is a comprehensive embedded infotainment system simulator designed to demonstrate advanced embedded systems development skills. This project showcases expertise in C++, Qt, Linux embedded systems, and automotive infotainment technologies - exactly the skills required for the **Rivian & Volkswagen Group Technologies Software Infotainment Platform Engineer** position.
+AutoDash OS is a modular infotainment system simulator designed to showcase embedded systems and automotive software engineering skills. The project is implemented in modern C++ (C++17) using Qt6 and simulates the core features found in real-world automotive infotainment platforms. It is intended as a demonstration of proficiency in C++, Qt, embedded Linux concepts, and system integration for roles such as the Rivian & Volkswagen Group Technologies Software Infotainment Platform Engineer.
 
-## 🎯 Skills Demonstrated
+## Technologies Used
 
-This project demonstrates proficiency in all technologies mentioned in the job posting:
+- **C++17**: Modern language features, smart pointers, RAII
+- **Qt6**: Core, Widgets, Multimedia, MultimediaWidgets, Network
+- **OpenCV**: Camera integration
+- **Linux Embedded Concepts**: Simulated environment, file system structure, process management
+- **Low-level Interfaces**: I2C, USB, Bluetooth (BlueZ concepts), ALSA (audio)
+- **Build System**: CMake for cross-platform compilation
+- **Testing**: Catch2 for unit tests
 
-### ✅ **Core Technologies**
-- **C++** - Modern C++17 with advanced features (smart pointers, RAII, templates)
-- **Qt6** - Comprehensive Qt application with multimedia, networking, and UI components
-- **Linux Embedded Systems** - Simulated Linux-style embedded architecture
-- **Embedded System Software** - Real-time sensor simulation and hardware abstraction
-
-### ✅ **Bonus Skills**
-- **Python** - Build scripts and automation tools
-- **Low-level Interfaces** - I2C, SPI, GPIO, UART, USB, PCIe simulation
-- **Debugging** - Comprehensive logging and error handling systems
-- **AOSP Knowledge** - Android-style system architecture
-- **Technical Areas** - Displays, cameras, graphics, power management, audio, Bluetooth
-
-## 🏗️ Architecture
+## Project Structure
 
 ```
 AutoDash-OS/
 ├── src/
-│   ├── main.cpp                 # Application entry point with proper initialization
-│   ├── ui/                      # Qt-based user interface modules
-│   │   ├── MainWindow.cpp/.h    # Main automotive-style interface
-│   │   ├── MediaPlayer.cpp/.h   # USB media playback with metadata
-│   │   ├── BluetoothPanel.cpp/.h # Bluetooth device management
-│   │   ├── ClimateControl.cpp/.h # I2C sensor-based climate control
-│   │   └── CameraModule.cpp/.h  # OpenCV-based rear camera system
-│   └── system/                  # Embedded system simulation
-│       ├── Logger.cpp/.h        # Comprehensive logging system
-│       ├── MockI2C.cpp/.h      # I2C sensor simulation
-│       ├── USBMonitor.cpp/.h    # USB device monitoring
-│       ├── BluetoothSim.cpp/.h  # Bluetooth stack simulation
-│       └── ConfigManager.cpp/.h # System configuration management
-├── assets/                      # Application resources
-├── tests/                       # Unit tests
-├── CMakeLists.txt              # Modern CMake build system
-└── README.md                   # This file
+│   ├── main.cpp
+│   ├── ui/
+│   │   ├── MainWindow.cpp/.h
+│   │   ├── MediaPlayer.cpp/.h
+│   │   ├── BluetoothPanel.cpp/.h
+│   │   ├── ClimateControl.cpp/.h
+│   │   └── CameraModule.cpp/.h
+│   └── system/
+│       ├── Logger.cpp/.h
+│       ├── MockI2C.cpp/.h
+│       ├── USBMonitor.cpp/.h
+│       ├── BluetoothSim.cpp/.h
+│       └── ConfigManager.cpp/.h
+├── assets/
+├── tests/
+├── CMakeLists.txt
+└── README.md
 ```
 
-## 🔧 Key Features
+## Features
 
-### 1. **Media Player Module**
-- **USB Media Detection**: Real-time USB device monitoring with file system watching
-- **Metadata Extraction**: Automatic song title, artist, album, and duration parsing
-- **Playback Controls**: Play, pause, skip, volume control with ALSA integration
-- **Playlist Management**: Dynamic playlist updates when USB devices are connected/disconnected
+### Media Player
+- Scans a simulated `/mnt/usb/` directory for `.mp3` and `.wav` files
+- Displays song lists with metadata (title, artist, album, duration)
+- Supports play, pause, skip, and volume control (QMediaPlayer or ALSA)
+- Handles "No USB detected" state and updates UI dynamically
+- Shows playback progress and elapsed time
 
-```cpp
-// Example: USB device monitoring
-USBMonitor& usbMonitor = USBMonitor::getInstance();
-usbMonitor.simulateUSBInsertion("USB_DRIVE_01");
-QList<MediaFile> files = usbMonitor.getMediaFiles(deviceId);
-```
+### Bluetooth Module
+- Simulates Bluetooth device discovery using BlueZ concepts
+- Allows pairing, connecting, and unpairing of mock devices
+- Stores paired devices in configuration for persistence
+- Simulates connection states (searching, connecting, connected)
 
-### 2. **Bluetooth Module**
-- **Device Discovery**: Simulated BlueZ-style Bluetooth device discovery
-- **Pairing Process**: Realistic pairing simulation with timeout handling
-- **Profile Management**: A2DP, AVRCP, HFP, HSP profile support
-- **Signal Strength**: Dynamic signal strength simulation
+### Climate Control
+- Simulates I2C sensor readings (temperature, humidity) via a `MockI2C` class
+- Updates sensor data every 5 seconds
+- Allows user to set target temperature; displays heating/cooling/idle status
+- Saves and loads preferred climate settings
 
-```cpp
-// Example: Bluetooth device pairing
-BluetoothSim& btSim = BluetoothSim::getInstance();
-btSim.simulateDeviceAppearance("iPhone 15 Pro", BluetoothDeviceType::PHONE);
-btSim.pairDevice(deviceId);
-```
+### Rear Camera
+- Displays a live webcam feed using OpenCV and Qt
+- Includes a "Reverse Mode" toggle for full-screen view with grid/guide overlays
 
-### 3. **Climate Control Module**
-- **I2C Sensor Simulation**: Realistic temperature, humidity, pressure sensor data
-- **Calibration System**: Sensor calibration with offset management
-- **Error Simulation**: Connection errors, sensor failures, data corruption
-- **Real-time Updates**: 5-second sensor data updates with logging
+### System Integration
+- Watches the simulated USB folder using QFileSystemWatcher for real-time updates
+- Implements a thread-safe logger (console and `/var/log/autodash.log`), with a UI log viewer
+- Stores settings (paired device, climate, last song) in JSON config files
+- Loads saved config and resumes last state on startup
+- Simulates runtime bugs for GDB demonstration (see Debugging section)
 
-```cpp
-// Example: I2C sensor reading
-MockI2C& i2c = MockI2C::getInstance();
-i2c.begin(0x48);
-SensorData data = i2c.getCurrentData();
-double temperature = data.temperature;
-```
-
-### 4. **Rear Camera Module**
-- **OpenCV Integration**: Real webcam feed with computer vision processing
-- **Reverse Mode**: Full-screen camera view with parking guidelines
-- **Image Processing**: Brightness, contrast, saturation adjustments
-- **Recording Capability**: Video capture and image capture functionality
-
-### 5. **System Integration**
-- **Comprehensive Logging**: Multi-level logging system with file and console output
-- **Configuration Management**: JSON-based configuration with environment support
-- **Error Handling**: Robust error handling with user-friendly error messages
-- **Startup Sequence**: Realistic automotive startup sequence with splash screen
-
-## 🛠️ Build System
+## Building and Running
 
 ### Prerequisites
 
-#### **Windows**
-1. **Visual Studio 2022** (Community Edition is free)
-   - Download from: https://visualstudio.microsoft.com/downloads/
-   - Install with "Desktop development with C++" workload
+#### Windows
+- Visual Studio 2022 (with "Desktop development with C++" workload)
+- Qt6 (install via Qt Creator, set `QTDIR` environment variable)
+- CMake (add to PATH)
+- OpenCV (pre-built binaries or via vcpkg)
 
-2. **Qt6**
-   - Download Qt6 from: https://www.qt.io/download
-   - Install Qt 6.5+ with Qt Creator
-   - Set QTDIR environment variable to Qt installation path
-
-3. **CMake**
-   - Download from: https://cmake.org/download/
-   - Add to PATH during installation
-
-4. **OpenCV**
-   - Download pre-built binaries from: https://opencv.org/releases/
-   - Or install via vcpkg: `vcpkg install opencv`
-
-#### **Linux (Ubuntu/Debian)**
-```bash
+#### Linux (Ubuntu/Debian)
+```
 sudo apt-get install build-essential cmake qt6-base-dev qt6-multimedia-dev libopencv-dev
 ```
 
-#### **macOS**
-```bash
+#### macOS
+```
 brew install cmake qt6 opencv
 ```
 
-### Building the Project
+### Build Instructions
 
-#### **Windows (PowerShell/Command Prompt)**
-```powershell
-# Run the Windows build script
-.\build.bat
+#### Windows (PowerShell/Command Prompt)
+```
+# Run the build script
+dir build.bat
 
 # Or build manually
 mkdir build
 cd build
 cmake .. -G "Visual Studio 17 2022" -A x64
 cmake --build . --config Release
-.\AutoDash-OS.exe
+./AutoDash-OS.exe
 ```
 
-#### **Linux/macOS**
-```bash
-# Run the Linux build script
+#### Linux/macOS
+```
+# Run the build script
 ./build.sh
 
 # Or build manually
@@ -158,73 +117,62 @@ make -j$(nproc)
 ./AutoDash-OS
 ```
 
-### Build Features
-- **Modern CMake**: C++17 standard with Qt6 and OpenCV integration
-- **Cross-platform**: Windows, macOS, and Linux support
-- **Optimized Compilation**: -O2 optimization with debug symbols
-- **Dependency Management**: Automatic Qt MOC, RCC, and UIC processing
+### Build System Features
+- Modern CMake with Qt6 and OpenCV integration
+- Cross-platform: Windows, macOS, Linux
+- Optimized compilation with debug symbols
+- Automatic Qt MOC, RCC, and UIC processing
 
-## 🔍 Debugging & Development
+## Debugging and Development
 
 ### GDB Integration
-The project includes comprehensive debugging support:
+The project is designed for easy debugging with GDB:
 
-```bash
-# Debug build
+```
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 make
 gdb ./AutoDash-OS
+```
 
-# Example debugging session
+Example session:
+```
 (gdb) break MockI2C::readRegister
 (gdb) run
 (gdb) print reg
 (gdb) continue
 ```
 
-### Logging System
+### Logging
+The logger supports multiple levels and outputs to both file and console:
 ```cpp
-// Multi-level logging with file output
 LOG_DEBUG("MockI2C", "Reading register 0x00");
 LOG_INFO("USBMonitor", "USB device connected: USB_DRIVE_01");
 LOG_ERROR("BluetoothSim", "Connection failed - device not responding");
 ```
 
 ### Error Simulation
-The system includes realistic error simulation for testing:
-
+You can simulate hardware and connection errors for testing:
 ```cpp
-// Simulate I2C connection error
 mockI2C.simulateConnectionError(true);
-
-// Simulate USB mount failure
 usbMonitor.simulateMountError(true);
-
-// Simulate Bluetooth pairing error
 bluetoothSim.simulatePairingError(deviceId, true);
 ```
 
-## 📊 Performance & Optimization
+## Performance and Optimization
+- Uses smart pointers and RAII for memory management
+- Singleton pattern for core system components
+- Qt parent-child memory model
+- Timer-based updates for real-time sensor data
+- Thread-safe logging and configuration
 
-### Memory Management
-- **Smart Pointers**: RAII-compliant resource management
-- **Singleton Pattern**: Efficient system component management
-- **Qt Memory Model**: Proper Qt parent-child relationships
-
-### Real-time Performance
-- **Timer-based Updates**: Efficient sensor data updates (5-second intervals)
-- **Event-driven Architecture**: Qt signal-slot mechanism for responsive UI
-- **Thread-safe Operations**: Mutex-protected logging and configuration
-
-## 🧪 Testing & Validation
+## Testing
 
 ### Unit Tests
+Unit tests are implemented with Catch2. Example:
 ```cpp
-// Example test for MockI2C
 TEST_CASE("MockI2C sensor reading") {
     MockI2C& i2c = MockI2C::getInstance();
     REQUIRE(i2c.begin(0x48) == true);
-    
     SensorData data = i2c.getCurrentData();
     REQUIRE(data.temperature >= -40.0);
     REQUIRE(data.temperature <= 80.0);
@@ -234,71 +182,49 @@ TEST_CASE("MockI2C sensor reading") {
 ```
 
 ### Integration Testing
-- **USB Device Simulation**: Complete USB device lifecycle testing
-- **Bluetooth Pairing Flow**: End-to-end pairing process validation
-- **Sensor Data Flow**: I2C sensor data processing pipeline
-- **Configuration Persistence**: Settings save/load functionality
+- USB device simulation
+- Bluetooth pairing flow
+- Sensor data processing
+- Configuration persistence
 
-## 🚀 Deployment & Packaging
+## Packaging and Deployment
 
-### Linux Package
-```bash
-# Create AppImage
-linuxdeployqt AutoDash-OS -appimage
+### Linux
+- AppImage: `linuxdeployqt AutoDash-OS -appimage`
+- Debian package: `cpack -G DEB`
 
-# Create Debian package
-cpack -G DEB
-```
+### Windows
+- NSIS installer: `cpack -G NSIS`
 
-### Windows Installer
-```bash
-# Create NSIS installer
-cpack -G NSIS
-```
+## Future Enhancements
+- CAN bus simulation
+- GPS integration
+- Voice recognition
+- OTA updates
+- OBD-II diagnostic interface
+- Multi-threading and GPU acceleration
 
-## 📈 Future Enhancements
-
-### Planned Features
-- **CAN Bus Simulation**: Automotive CAN bus communication
-- **GPS Integration**: Navigation system with real GPS data
-- **Voice Recognition**: Speech-to-text for hands-free operation
-- **OTA Updates**: Over-the-air firmware updates
-- **Diagnostic Interface**: OBD-II diagnostic simulation
-
-### Performance Improvements
-- **Multi-threading**: Parallel sensor data processing
-- **GPU Acceleration**: OpenGL-based graphics rendering
-- **Memory Pooling**: Optimized memory allocation for embedded systems
-- **Real-time Scheduling**: Priority-based task scheduling
-
-## 🎓 Educational Value
-
+## Educational Value
 This project demonstrates:
+- Embedded systems design and hardware abstraction
+- Automotive infotainment architecture
+- Modern C++ and Qt best practices
+- Linux embedded development
+- Debugging and logging
+- Build systems and testing
 
-1. **Embedded Systems Design**: Real-time sensor simulation and hardware abstraction
-2. **Automotive Software**: Infotainment system architecture and user experience
-3. **C++ Best Practices**: Modern C++ features, RAII, and memory management
-4. **Qt Framework**: Comprehensive Qt application development
-5. **Linux Development**: Embedded Linux system programming
-6. **Debugging Skills**: GDB integration and comprehensive logging
-7. **Build Systems**: Modern CMake-based build configuration
-8. **Testing**: Unit testing and integration testing strategies
+## Contributing
 
-## 🤝 Contributing
+This repository is intended as a demonstration of embedded systems and automotive software engineering skills. The codebase follows:
+- Google C++ Style Guide
+- Qt coding standards
+- MISRA C++ compliance considerations
+- Comprehensive inline documentation
 
-This project serves as a demonstration of embedded systems development skills. The codebase follows:
+## License
 
-- **Google C++ Style Guide**: Consistent code formatting and naming conventions
-- **Qt Coding Standards**: Qt-specific best practices
-- **Embedded C++ Guidelines**: MISRA C++ compliance considerations
-- **Documentation**: Comprehensive inline documentation and comments
-
-## 📄 License
-
-This project is created for educational and demonstration purposes to showcase embedded systems development skills for the Rivian & Volkswagen Group Technologies position.
+This project is for educational and demonstration purposes, created to showcase embedded systems development for automotive infotainment roles.
 
 ---
 
-**Built with ❤️ for the future of automotive software**
-
-*This project demonstrates the exact skills required for embedded infotainment platform development at leading automotive technology companies.*
+*For questions or feedback, please open an issue or contact the repository owner.*
