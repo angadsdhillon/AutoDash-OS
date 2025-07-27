@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-AutoDash OS is a modular infotainment system simulator designed to showcase embedded systems and automotive software engineering skills. The project is implemented in modern C++ (C++17) using Qt6 and simulates the core features found in real-world automotive infotainment platforms. It is intended as a demonstration of proficiency in C++, Qt, embedded Linux concepts, and system integration for roles such as the Rivian & Volkswagen Group Technologies Software Infotainment Platform Engineer.
+AutoDash OS is a modular infotainment system simulator designed to showcase embedded systems and automotive software engineering skills. The project is implemented in modern C++ (C++17) using Qt6 and simulates the core features found in real-world automotive infotainment platforms. It is intended as a demonstration of proficiency in C++, Qt, embedded Linux concepts, and system integration. 
 
 ## Technologies Used
 
